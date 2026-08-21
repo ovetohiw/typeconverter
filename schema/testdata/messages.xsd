@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Messages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="MessageData">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="Id" maxOccurs="1" minOccurs="1"/>
+              <xs:element type="xs:string" name="Number" maxOccurs="1" minOccurs="1"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="PublisherInfo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                      <xs:element minOccurs="0" maxOccurs="1" name="ArbitrManager">
+                        <xs:complexType>
+                          <xs:complexContent mixed="false">
+                            <xs:extension base="PublisherInfoBase">
+                              <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="1" name="OGRN" type="xs:string"/>
+                              </xs:sequence>
+                              <xs:attribute name="INN" type="xs:string"/>
+                            </xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Company">
+                        <xs:complexType>
+                          <xs:complexContent mixed="false">
+                            <xs:extension base="PublisherInfoBase">
+                              <xs:attribute name="Name" type="xs:string"/>
+                              <xs:attribute name="INN" type="xs:string"/>
+                            </xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="Publisher" type="Publisher"/>
+              <xs:element minOccurs="0" maxOccurs="1" name="MessageInfo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                      <xs:element minOccurs="0" maxOccurs="1" name="CourtDecision">
+                        <xs:complexType>
+                          <xs:complexContent mixed="false">
+                            <xs:extension base="MessageContentBase">
+                              <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="1" name="DecisionType">
+                                  <xs:complexType>
+                                    <xs:attribute name="Name" type="xs:string"/>
+                                    <xs:attribute name="Id" type="xs:int" use="required"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element minOccurs="0" maxOccurs="1" name="ChangedMessageNumber" type="xs:string"/>
+                                <xs:element minOccurs="1" maxOccurs="1" name="NextCourtSessionDate" nillable="true" type="xs:date"/>
+                              </xs:sequence>
+                            </xs:extension>
+                          </xs:complexContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Auction" type="AuctionMessageContent"/>
+                    </xs:choice>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="PublisherInfoBase" abstract="true">
+    <xs:attribute name="Id" type="xs:int" use="required"/>
+    <xs:attribute name="FirstName" type="xs:string"/>
+    <xs:attribute name="LastName" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="Publisher" abstract="true"/>
+  <xs:complexType name="Publisher.ArbitrManager.v2">
+    <xs:complexContent mixed="false">
+      <xs:extension base="Publisher">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Inn" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="Email" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MessageContentBase" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AuctionMessageContent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MessageContentBase">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="IsRepeat" type="xs:boolean"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="Date" nillable="true" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

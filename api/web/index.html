@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TypeConverter</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%2314160f'/%3E%3Cpath d='M3 8h10M9 5l3 3-3 3' stroke='%23d4a017' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="hero">
+    <span class="mark" aria-hidden="true">⇄</span>
+    <p class="eyebrow">✦ документы · схемы · форматы ✦</p>
+    <h1>TypeConverter</h1>
+    <p class="lede">
+      ✨ Превращайте данные из одного вида в другой —
+      смысл остаётся, меняется только форма.
+      <br>
+      ⇄ Одна модель — несколько представлений.
+    </p>
+    <p class="lede-row">
+      <span>📄 документы</span>
+      <span>🧩 схемы</span>
+      <span>⇄ форматы</span>
+    </p>
+  </header>
+
+  <div class="toolbar">
+    <p id="schema-status">Каталог XML ⇄ JSON</p>
+    <nav class="wins" role="tablist" aria-label="Окна">
+      <button type="button" class="win-btn is-on" data-win="convert" role="tab" aria-selected="true">XML ⇄ JSON</button>
+      <button type="button" class="win-btn" data-win="schema" role="tab" aria-selected="false">XSD / шаблон</button>
+    </nav>
+    <button type="button" class="ghost" id="open-store">Текущий документ</button>
+  </div>
+
+  <main class="bench" id="win-convert" data-window="convert" aria-labelledby="convert-title">
+    <section class="pane source" aria-labelledby="source-title">
+      <div class="pane-head">
+        <h2 id="source-title">Источник</h2>
+        <div class="seg" role="tablist" aria-label="Формат источника">
+          <button type="button" class="seg-btn is-on" data-format="xml" role="tab" aria-selected="true">XML</button>
+          <button type="button" class="seg-btn" data-format="json" role="tab" aria-selected="false">JSON</button>
+        </div>
+      </div>
+      <div class="pane-foot">
+        <div class="pane-actions">
+          <label class="ghost file-btn">Файл<input type="file" id="file" accept=".xml,application/xml,text/xml"></label>
+        </div>
+        <span class="hint" id="source-hint">Отправка только по кнопке</span>
+      </div>
+      <div class="drop" id="drop">
+        <div class="bulk-banner" id="source-banner" hidden></div>
+        <textarea id="source" spellcheck="false" wrap="off" aria-label="Тело документа" placeholder="Вставьте документ или выберите файл — конвертация только по кнопке"></textarea>
+      </div>
+    </section>
+
+    <section class="pane mill" aria-labelledby="mill-title">
+      <div class="pane-head">
+        <h2 id="convert-title">Очередь</h2>
+      </div>
+      <div class="pane-foot">
+        <p class="job-meta" id="job-meta">Нет активной задачи</p>
+      </div>
+      <ol class="stages" id="stages">
+        <li data-stage="queued">в очереди</li>
+        <li data-stage="running">выполняется</li>
+        <li data-stage="done">готово</li>
+      </ol>
+      <button type="button" class="convert" id="convert">В JSON</button>
+      <p class="err" id="mill-error" hidden></p>
+      <div class="pane-head history-head">
+        <h3>История</h3>
+        <button type="button" class="ghost" id="clear-jobs">Очистить</button>
+      </div>
+      <ul class="jobs" id="jobs"></ul>
+    </section>
+
+    <section class="pane result" aria-labelledby="result-title">
+      <div class="pane-head">
+        <h2 id="result-title">Результат</h2>
+        <span class="out-fmt is-json" id="convert-result-label">JSON</span>
+      </div>
+      <div class="pane-foot">
+        <div class="pane-actions">
+          <button type="button" class="ghost" id="copy-out" disabled>Копировать</button>
+          <button type="button" class="ghost" id="download-out" disabled>Скачать</button>
+        </div>
+        <span class="hint" id="out-hint">На выходе только JSON</span>
+      </div>
+      <div class="out-box">
+        <div class="bulk-banner" id="out-banner" hidden></div>
+        <pre class="out" id="output" tabindex="0"></pre>
+      </div>
+    </section>
+  </main>
+
+  <main class="bench" id="win-schema" data-window="schema" hidden aria-labelledby="schema-title">
+    <section class="pane source" aria-labelledby="schema-source-title">
+      <div class="pane-head">
+        <h2 id="schema-source-title">Схема</h2>
+        <div class="seg" role="tablist" aria-label="Формат схемы">
+          <button type="button" class="seg-btn is-on" data-schema-src="xsd" role="tab" aria-selected="true">XSD</button>
+          <button type="button" class="seg-btn" data-schema-src="json" role="tab" aria-selected="false">JSON template</button>
+        </div>
+      </div>
+      <div class="pane-foot">
+        <div class="pane-actions">
+          <label class="ghost file-btn">Файл<input type="file" id="schema-file" accept=".xsd,application/xml,text/xml,application/xsd+xml"></label>
+        </div>
+        <span class="hint">Отправка только по кнопке</span>
+      </div>
+      <div class="drop" id="schema-drop">
+        <div class="bulk-banner" id="schema-src-banner" hidden></div>
+        <textarea id="schema-source" spellcheck="false" wrap="off" aria-label="Тело схемы" placeholder="Вставьте схему или выберите файл — разбор только по кнопке"></textarea>
+      </div>
+    </section>
+
+    <section class="pane mill" aria-labelledby="schema-title">
+      <div class="pane-head">
+        <h2 id="schema-title">Очередь</h2>
+      </div>
+      <div class="pane-foot">
+        <p class="job-meta" id="schema-meta">Нет активной задачи</p>
+      </div>
+      <ol class="stages" id="schema-stages">
+        <li data-stage="queued">в очереди</li>
+        <li data-stage="running">выполняется</li>
+        <li data-stage="done">готово</li>
+      </ol>
+      <button type="button" class="convert" id="schema-parse">В JSON template</button>
+      <button type="button" class="ghost" id="clear-schema">Сбросить схему</button>
+      <p class="err" id="schema-error" hidden></p>
+      <div class="pane-head history-head">
+        <h3>История</h3>
+        <button type="button" class="ghost" id="clear-schema-jobs">Очистить</button>
+      </div>
+      <ul class="jobs" id="schema-jobs"></ul>
+    </section>
+
+    <section class="pane result" aria-labelledby="schema-result-title">
+      <div class="pane-head">
+        <h2 id="schema-result-title">Результат</h2>
+        <span class="out-fmt is-json" id="schema-result-label">JSON template</span>
+      </div>
+      <div class="pane-foot">
+        <div class="pane-actions">
+          <button type="button" class="ghost" id="schema-copy" disabled>Копировать</button>
+          <button type="button" class="ghost" id="schema-download" disabled>Скачать</button>
+        </div>
+        <span class="hint" id="schema-hint">На выходе только JSON template</span>
+      </div>
+      <div class="out-box">
+        <div class="bulk-banner" id="schema-out-banner" hidden></div>
+        <pre class="out" id="schema-output" tabindex="0"></pre>
+      </div>
+    </section>
+  </main>
+
+  <aside class="drawer" id="store" hidden>
+    <div class="drawer-card">
+      <div class="pane-head">
+        <h2>Текущий документ</h2>
+        <button type="button" class="ghost" id="close-store">Закрыть</button>
+      </div>
+      <div class="store-grid">
+        <article>
+          <h3>GET /xml</h3>
+          <pre id="store-xml"></pre>
+        </article>
+        <article>
+          <h3>GET /json</h3>
+          <pre id="store-json"></pre>
+        </article>
+      </div>
+    </div>
+  </aside>
+
+  <script src="/app.js"></script>
+</body>
+</html>

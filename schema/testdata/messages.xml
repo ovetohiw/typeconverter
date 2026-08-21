@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Messages>
+  <MessageData>
+    <Id>10</Id>
+    <Number>A-1</Number>
+    <PublisherInfo>
+      <ArbitrManager Id="7" FirstName="Ada" INN="7700000000">
+        <OGRN>1027700000000</OGRN>
+      </ArbitrManager>
+    </PublisherInfo>
+    <Publisher xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Publisher.ArbitrManager.v2">
+      <Inn>7700000000</Inn>
+      <Email>ada@example.com</Email>
+    </Publisher>
+    <MessageInfo>
+      <CourtDecision>
+        <Text>base text</Text>
+        <DecisionType Name="Observation" Id="1"/>
+        <ChangedMessageNumber>B-2</ChangedMessageNumber>
+        <NextCourtSessionDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+      </CourtDecision>
+    </MessageInfo>
+  </MessageData>
+</Messages>

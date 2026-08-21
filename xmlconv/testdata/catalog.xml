@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog generated="2026-01-01" version="2" active="true">
+  <title>Type Converter Catalog</title>
+  <count>3</count>
+  <rating>4.75</rating>
+  <notes><![CDATA[Special chars: <tag> & "quotes"]]></notes>
+  <flags>
+    <flag>featured</flag>
+    <flag>sale</flag>
+  </flags>
+  <book id="1" available="true" sku="GO-001">
+    <title>Go in Action</title>
+    <price>32.5</price>
+    <pages>300</pages>
+    <tags>
+      <tag>lang</tag>
+      <tag>backend</tag>
+    </tags>
+    <authors>
+      <author id="10">
+        <name>William Kennedy</name>
+        <active>true</active>
+      </author>
+      <author id="11">
+        <name>Brian Ketelsen</name>
+        <active>false</active>
+      </author>
+    </authors>
+    <stock sku="A">10</stock>
+    <stock sku="B">0</stock>
+  </book>
+  <book id="2">
+    <title>XML Cookbook</title>
+    <meta>
+      <author>Ann</author>
+      <year>2020</year>
+      <reprint>false</reprint>
+      <extra>
+        <isbn>123</isbn>
+      </extra>
+    </meta>
+  </book>
+  <book id="3" available="false">
+    <title>Надёжный JSON</title>
+    <edition year="2013" pages="100"/>
+    <edition year="2024" pages="128"/>
+    <payload>
+      <custom>value</custom>
+      <nested>
+        <deep>ok</deep>
+      </nested>
+    </payload>
+  </book>
+</catalog>

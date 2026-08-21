@@ -1,0 +1,55 @@
+{
+  "generated": "2026-01-01",
+  "version": 2,
+  "active": true,
+  "title": "Type Converter Catalog",
+  "count": 3,
+  "rating": 4.75,
+  "notes": "Special chars: <tag> & \"quotes\"",
+  "flags": ["featured", "sale"],
+  "books": [
+    {
+      "id": 1,
+      "available": true,
+      "sku": "GO-001",
+      "title": "Go in Action",
+      "price": 32.5,
+      "pages": 300,
+      "tags": ["lang", "backend"],
+      "authors": [
+        {"id": 10, "name": "William Kennedy", "active": true},
+        {"id": 11, "name": "Brian Ketelsen", "active": false}
+      ],
+      "stock": [
+        {"sku": "A", "qty": 10},
+        {"sku": "B", "qty": 0}
+      ]
+    },
+    {
+      "id": 2,
+      "title": "XML Cookbook",
+      "meta": {
+        "author": "Ann",
+        "year": 2020,
+        "reprint": false,
+        "extra": {
+          "isbn": "123"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "available": false,
+      "title": "Надёжный JSON",
+      "subtitle": null,
+      "editions": [
+        {"year": 2013, "pages": 100},
+        {"year": 2024, "pages": 128}
+      ],
+      "payload": {
+        "custom": "value",
+        "nested": {"deep": "ok"}
+      }
+    }
+  ]
+}
